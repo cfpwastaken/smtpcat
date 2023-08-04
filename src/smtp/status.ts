@@ -1,5 +1,3 @@
-import net from "net"
-
 export type EnhancedStatusSubject = {
 	code: number,
 	name: string
@@ -89,9 +87,9 @@ type StatusOptions = {
 	args?: string[]
 }
 
-export default function sendStatus(socket: net.Socket) {
+export default function sendStatus(socket: Deno.Conn) {
 	return (code: number, options?: StatusOptions | EnhancedCode) => {
-		socket.write(status(code, options))
+		socket.write(new TextEncoder().encode(status(code, options)))
 	}
 }
 
